@@ -1,0 +1,8 @@
+A dog is an animal.
+A dog is an animal with fur.
+A dog is not a plant.
+A dog is not a rock.
+A human is an animal.
+A human is not a dog.
+A human is not a plant.
+A human is an animal with no fur. 

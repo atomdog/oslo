@@ -1,0 +1,2 @@
+def RelationGen():
+    yield(True)
