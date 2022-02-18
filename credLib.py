@@ -1,4 +1,3 @@
-#credLib.py
 import json
 
 def createBlankCred():
@@ -24,7 +23,13 @@ def createBlankCred():
     'shodan' :
                 {
                     'shodanK' : ''
-                }
+                },
+    'spotify' :
+        {
+            "SPOTIPY_CLIENT_ID" : "",
+            "SPOTIPY_CLIENT_SECRET" : "",
+            "SPOTIPY_REDIRECT_URI" :  ""
+        }
     }
     with open('credFile.json', 'w') as outfile:
         json.dump(data, outfile)
@@ -44,4 +49,3 @@ def fillbykey(key0, key1, param):
 def returnbykey(key0,key1):
     data = load_file()
     return(data[key0][key1])
-
