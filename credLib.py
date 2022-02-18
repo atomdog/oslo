@@ -45,5 +45,3 @@ def returnbykey(key0,key1):
     data = load_file()
     return(data[key0][key1])
 
-fillbykey('email','emailU','minsky.server@gmail.com')
-fillbykey('email','emailP','fuckpenis12')
