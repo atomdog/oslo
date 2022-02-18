@@ -10,6 +10,8 @@ __pycache__/
 model-spk/
 faces/
 model2/
+credFile.json
+profFile.json
 # Distribution / packaging
 .Python
 build/
