@@ -29,6 +29,11 @@ def createBlankCred():
             "SPOTIPY_CLIENT_ID" : "",
             "SPOTIPY_CLIENT_SECRET" : "",
             "SPOTIPY_REDIRECT_URI" :  ""
+        },
+    'wyze' :
+        {
+            "email": "",
+            "password": ""
         }
     }
     with open('credFile.json', 'w') as outfile:
