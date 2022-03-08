@@ -1,7 +1,7 @@
 
 class profile():
     def __init__(self, ID):
-        pronounslist = ["he", "him ", "his"], ["she", "her", "hers"], ["they", "their", "theirs"]
+        pronounslist = ["he", "him ", "his"], ["she", "her", "hers"], ["they", "them", "their"]
         prefix = [['Mister'], ['Miss'], []]
         self.ID = ID
         self.face = None
