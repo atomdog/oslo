@@ -12,7 +12,7 @@ import json
 import simpleaudio as sa
 import numpy as np
 from vosk import Model, KaldiRecognizer, SpkModel
-import independentca
+
 q = queue.Queue()
 
 
