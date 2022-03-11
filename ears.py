@@ -12,8 +12,10 @@ import json
 import simpleaudio as sa
 import numpy as np
 from vosk import Model, KaldiRecognizer, SpkModel
-
+import independentca
 q = queue.Queue()
+
+custom_devices = ["Aidan's Airpods"]
 
 
 def cosine_dist(x, y):
@@ -47,7 +49,7 @@ def listen():
             print(sd.query_devices(x))
             if(sd.query_devices(x)['name'] == 'USB PnP Audio Device' and sd.query_devices(x)['max_input_channels'] > 0):
                 micarraypres = x
-            if(sd.query_devices(x)['name'] == 'Aidan’s AirPods' and sd.query_devices(x)['max_input_channels'] > 0):
+            if(sd.query_devices(x)['name'] == custom_devices[0] and sd.query_devices(x)['max_input_channels'] > 0):
                 airpodpres = x
         if(airpodpres > 0):
             device_info = sd.query_devices(airpodpres, 'input')
