@@ -8,15 +8,20 @@ import time
 
 class stream():
     def __init__(self):
+        self.recent_entities = []
+        self.recent_chunks = []
+
         pass
+
     def split_sentences(self,blocktext):
         pass
     def resolve_source(self,voi):
         pass
     def unknown_resolve(self,voi):
         pass
-    def partition_actions(self, pi):
+    def subject_swap(self):
         pass
+
     def routine(self):
         print("<--- Thawing Semantic Web --->")
         self.webo = semweblib.thaw_web()
@@ -71,7 +76,7 @@ class stream():
                     self.webo.sentenceEncounter(self.currentSF, None)
                     #spin traces in semantic web
                     self.webo.spintrace()
-
+                    
                     #semweblib.freeze_web(self.webo)
                     #if current is declarative
                     if(self.webo.semWeb[len(self.webo.semWeb)-1].type == 3 or self.webo.semWeb[len(self.webo.semWeb)-1].type == 2):
@@ -92,14 +97,27 @@ class stream():
                         #send to symbolic engine, returns sentence frame with swapped personal pronouns
                         self.symengout = symbolic_engine.inbound_resolve_profile(self.currentSF)
                         #send plaintext to question
-                        self.currentQO = self.q_answer.send([' '.join(self.symengout['plaintext']), self.webo])
+                        #switch to bfs
+
+                        #get chunks, entities,
+                        webbedcontext = self.webo.aggregate_by_noun_chunks(self.webo.recent_entry())
+
+
+                        self.currentQO = self.q_answer.send([' '.join(self.symengout['plaintext']), webbedcontext])
                         response['plaintext'] = self.currentQO['answer']
                         response['confidence'] = self.currentQO['score']
                         response['type'] = "answertoquestion"
+                        self.webo.export_to_json()
+                        for x in range(0, len(self.webo.e_types)):
+                            print("<------->")
+                            print(self.webo.e_types[x])
+                            print(self.webo.get_by_entity(self.webo.e_types[x]))
+                            print("<------->")
                         if(self.currentQO == None):
                             print("<---- ERR: SAGE OFFLINE ---->")
                         else:
                             print(self.currentQO)
+
                     print("<-- Text flow cycle complete -->")
                     yield(response)
                 else:
