@@ -44,5 +44,8 @@ class audio_loop:
         next(creng)
         current_audio_output = next(ear)
         audcortex.passIn(current_audio_output[1], current_audio_output[0])
-        #print(current_audio_output[0])
+
+        print(audcortex.size)
+        print(current_audio_output[1])
+
         current_voice_val = creng.send(current_audio_output[0])
