@@ -76,6 +76,16 @@ def append_log(id, time, text, sfp, ct):
     table.flush()
     h5file.close()
 
+def get_table_length():
+    h5file = tables.open_file("memory/logs/audiolog.h5", mode="a", title="audiolog")
+    table = h5file.root.Null.Null
+    count = 0
+    for row in table:
+        count+=1
+    table.flush()
+    h5file.close()
+    return(count)
+
 #prints full table
 def print_full_table():
     h5file = tables.open_file("memory/logs/audiolog.h5", mode="a", title="audiolog")
@@ -124,13 +134,27 @@ def dump_text():
 class audio_cortex:
         def __init__(self):
             self.m = True
+            self.size = get_table_length()
+
+            self.size_bool = False
+        def check_size(self):
+            if(self.size_bool==False):
+                if(self.size>1):
+                    self.size_bool = True
+                    return(True)
+                else:
+                    return(False)
+            else:
+                return(True)
         def resolve_clusters(self,text,sfp):
             return("None")
         def log_Audio(self, text, sfp, clust):
             prepped = log_prep(text,sfp)
             append_log(prepped[0], prepped[1], prepped[2], prepped[3], clust)
         def passIn(self,text,sfp):
-            clustered = self.resolve_clusters(text,sfp)
+            clustered = "None"
+            if(self.check_size()):
+                clustered = self.resolve_clusters(text,sfp)
             self.log_Audio(text,sfp,clustered)
 
 
