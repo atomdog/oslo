@@ -1,21 +1,24 @@
 #semantic node, ie word plus semantic meaning representation
 import hashlib
 import _pickle as pickle
-import inspect
+import inspect#needed?
 import dateLib
-import matplotlib.pyplot as plt
-import networkx as nx
 import json
-
 import nltk
 from nltk.corpus import stopwords
-import spacy
+
+#-------------- aidan's notes --------------------
+#layer of action TRACKS in web *****!!!
+#sem_edges have hash of two connecting words creating unique key for pairs of words
+#perhaps a higher level edge for a->root->b
+#-------------------------------------------------
 
 def freeze_web(web_cl):
     fh = open("memory/serialized-instances/chillyWeb.obj", 'wb')
     pickle.dump(web_cl, fh)
+
 def torch_web():
-    web_cl = semWeb()
+    web_cl = sw()
     fh = open("memory/serialized-instances/chillyWeb.obj", 'wb')
     pickle.dump(web_cl, fh)
 
@@ -24,6 +27,7 @@ def thaw_web():
     fh = open("memory/serialized-instances/chillyWeb.obj", 'rb')
     wewb = pickle.load(fh)
     return(wewb)
+
 
 class sem_node:
     #'semantic hash' function
@@ -204,7 +208,7 @@ class sem_trace:
         self.by = by
 
 #semantic web
-class semWeb:
+class sw:
     def __init__(self):
         #composed of semantic row adjacency vectors
         self.semWeb = []
@@ -217,6 +221,8 @@ class semWeb:
         self.init_special_nodes()
         self.e_types = [    "CARDINAL", "DATE",  "EVENT",  "FAC",        "GPE",       "LANGUAGE", "LAW",   "LOC",       "MONEY",    "NORP",   "ORDINAL",  "ORG",           "PERCENT",   "PERSON", "PRODUCT", "QUANTITY",     "TIME",  "WORK_OF_ART"]
         self.type_lookup = {"CARDINAL":0,"DATE":2,"EVENT":4,"FAC":6, "GPE":8, "LANGUAGE":10, "LAW":12, "LOC":14, "MONEY":16, "NORP":18, "ORDINAL":20, "ORG":22, "PERCENT":24, "PERSON":26, "PRODUCT":28, "QUANTITY":30, "TIME":32, "WORK_OF_ART":34}
+        self.root_rep = []
+
 
     def init_special_nodes(self):
         types = [    "CARDINAL", "DATE",  "EVENT",  "FAC",        "GPE",       "LANGUAGE", "LAW",   "LOC",       "MONEY",    "NORP",   "ORDINAL",  "ORG",           "PERCENT",   "PERSON", "PRODUCT", "QUANTITY",     "TIME",  "WORK_OF_ART"]
@@ -227,8 +233,8 @@ class semWeb:
 
         for ind in range(0, len(types)):
             q = entity_node(types_name[ind], types[ind])
-            q.node_x = ind
-            q.node_y = 0
+            q.node_x = 0
+            q.node_y = len(self.semWeb)
             #insert into nodelist
             self.nodeList.append(q)
             #insert into track for semvector
@@ -236,7 +242,7 @@ class semWeb:
             #add an edge
             co = sem_edge()
             ctrack.append(co)
-        #noid
+            #noid
         end = noided()
         ctrack.append(end)
         #wrap in semvector
@@ -245,6 +251,20 @@ class semWeb:
         forweb.track = ctrack
         #insert into semweb
         self.semWeb.append(forweb)
+
+    def state_insert(self, snf):
+        #for creation of a 'live' state node
+
+        pass
+
+    def update_root_rep(self):
+        bookmark = self.semWeb[self.recent_entry()].track
+        current_root_rep = []
+        for x in range(0, len(bookmark)):
+            if(bookmark[x].qual == "node"):
+                current_root_rep.append(bookmark[x].text)
+        self.root_rep.append(current_root_rep)
+        print(self.root_rep)
 
 
     def recent_entry(self):
@@ -374,6 +394,7 @@ class semWeb:
         vectorized.entify()
         #slide in vector to web
         self.semWeb.append(vectorized)
+        self.update_root_rep()
         #clear semTrack
         self.semTrack = []
 
