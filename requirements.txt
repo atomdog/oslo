@@ -20,4 +20,4 @@ tables==3.6.1
 tensorflow==2.7.0
 vosk==0.3.21
 wikipedia==1.4.0
-~~quests==2.25.1
+requests==2.25.1
