@@ -11,9 +11,9 @@
 - [ ] Finalize live node system
      - Tying changing information (like the current time) to static nodes for quick reference by the [semweb](semweblib.py) 
 - [ ] Data flows 
-     -Data must flow upwards from [textflow](textflow.py) for communication between loops
-     -Connect the [language loop](languageloop.py) to the [causal model](causal_model.py)
-     -Reconnect the speaker-id to [textflow](textflow.py) and update the semantic web to accept it again
+     - Data must flow upwards from [textflow](textflow.py) for communication between loops
+     - Connect the [language loop](languageloop.py) to the [causal model](causal_model.py)
+     - Reconnect the speaker-id to [textflow](textflow.py) and update the semantic web to accept it again
 - [ ] Forgetfulness 
      - [Semantic web](semweblib.py) needs to forget conflicting facts to improve accuracy and time efficiency 
      - Dependent on completion of root representation.
