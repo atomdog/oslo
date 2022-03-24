@@ -8,4 +8,4 @@ The open source loop operator project is an effort to produce an open source vir
 - the [jira](https://buspark.atlassian.net/jira/software/projects/OSLO/boards/25/roadmap) has a more formal log
 ## Resources & related reading
 - [wiki](https://github.com/atomdog/oslo/wiki)
-- [what is substitute software as a service?](https://www.gnu.org/philosophy/who-does-that-server-really-serve.html)
+- why a local virtual assistant? [what is substitute software as a service?](https://www.gnu.org/philosophy/who-does-that-server-really-serve.html)
