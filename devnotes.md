@@ -5,6 +5,7 @@
 ### Known tasks
 - [ ] Fix [clustering](clusterResolve.py) strange behavior
      - Clustering inconsistencies, errors
+     - [strange](other_resources/terrible.png) [clustering](other_resources/slightlybetter.png) [errors](other_resources/speechcluster.png)
 - [ ] Extensive documentation
      - Code is cryptic, esoteric, and generally confusing in both appearance and function.
      - Draft a getting started page.
