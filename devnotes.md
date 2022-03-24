@@ -28,6 +28,7 @@
 - Began root representation format
 - Optimized audio loop
 - Fixed up the repo / serious misplaced code issue
+- Organized a little bit
 ### General notes
 - More persistency
 ## Tuesday, March 29, 2022
