@@ -1,183 +1,162 @@
-#clusterResolve.py
-import audiocortex
-
-import numpy as np
-import random
-
-from yellowbrick.cluster import KElbowVisualizer
-import matplotlib.pyplot as plt
-
-from sklearn.decomposition import PCA
-from kneed import KneeLocator
-
-
 from sklearn.cluster import KMeans
-from sklearn.cluster import SpectralClustering
-from sklearn import mixture
-from sklearn.cluster import OPTICS
+import numpy as np
+import pprofile
+import tables
+import dateLib
+import matplotlib.pyplot as plt
+import hashlib
 
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.model_selection import train_test_split
-#--------NOTES--------
-#In high-dimensional data, the curse of dimensionality says that all distances become similar.
-#This also affects data with cosine dist.
-#PCA variance should be between 0.95 between 0.99
-#---------------------
+class audioLog(tables.IsDescription):
+    ID      = tables.StringCol(16)   # 16-character String
+    time  = tables.StringCol(128)      # Signed 64-bit integer
+    text  = tables.StringCol(5000)
+    speechFingerPrint = tables.StringCol(5000)
+    clusterTag  = tables.StringCol(16)
 
-class clusterRes:
-        def __init__(self):
-            self.X = np.array(audiocortex.dump_sfp())
-            self.pcad = None
-            self.m = True
-            self.vknn = None
-            self.optimalclusters = None
-            self.varPCA = None
-            self.persistentKmodel = None
-            self.persistentPCAKmodel = None
-            self.kv = None
-            self.y_km = None
-            self.y_kx = None
-        def knn_pred(self, value):
-            self.vknn = KNeighborsClassifier(n_neighbors=self.optimalclusters)
-            self.vknn.fit(self.X, self.y_kx)
-            return(self.vknn.predict(np.array([value])))
+#standard hash
+def create_hash_id(text, now):
+    q = str(hashlib.md5((text+now).encode()).hexdigest())
+    return(q)
 
-        def kmean_pred(self, value):
-            return(self.persistentKmodel.predict(np.array([value])))
-
-        def variancePCA(self):
-            self.PC = PCA()
-            self.pcad = self.PC.fit_transform(self.X)
-            self.varPCA = np.cumsum(self.PC.explained_variance_ratio_)
-            #plt.plot(np.cumsum(pca.explained_variance_ratio_))
-            #plt.xlabel('number of components')
-            #plt.ylabel('cumulative explained variance');
-            #plt.show()
-
-        #quick opt k
-        def optKQuick(self, krange0, krange1):
-            try:
-                if(self.pcad.shape[0]>5):
-                    km = KMeans(n_clusters=1, init='k-means++', max_iter=14000, tol=1e-04)
-                    visualizer = KElbowVisualizer(km, k=(krange0,krange1), show=False)
-                    if(visualizer==None):
-                        print("<-- Optimal k failed-->")
-                        return(1)
-                    visualizer.fit(self.pcad)
-                    print(visualizer.elbow_value_)
-                    self.optimalclusters = visualizer.elbow_value_
-                    if(self.optimalclusters==None):
-                        self.optimalclusters = 1
-                else:
-                    print("<-- Optimal k failed-->")
-            except:
-                print("<-- Voice Upgrade Failed -->")
-                self.optimalclusters = 1
-
-        #sleeping necessary
-        #take nap to re- up models
-        def optKLong(self):
-            if(len(self.X)>0):
-                self.variancePCA()
-            else:
-                return(False)
-
-            km = KMeans(n_clusters=1, init='k-means++', max_iter=14000, tol=1e-04)
-            visualizer = KElbowVisualizer(km, k=(1,len(self.X)), show=False)
-            if(visualizer==None):
-                return(1)
-            visualizer.fit(self.X)
-            plt.clf()
-            if(self.optimalclusters==None):
-                self.optimalclusters = 1
-            if(self.optimalclusters < len(self.pcad)):
-                self.optimalclusters = visualizer.elbow_value_
-            else:
-                return(False)
-        #abbreviated optimal cluster + clustering
-        def upgradeQuick(self):
-            if(len(self.X)>0):
-                self.variancePCA()
-                self.optKQuick(1,self.pcad.shape[0])
-                print("<-- Voice Upgrade Successful -->")
-                print("<- Updated Optimal Known Voices:" + str(self.optimalclusters) + " ->")
-                return(True)
-            else:
-                print("<-- Voice Upgrade Failed -->")
-                return(False)
-        #extensive+accurate optimal cluster + clustering
-        def upgradeLong(self):
-            if(len(self.X)>0):
-                self.variancePCA()
-                self.optKLong()
-                print("<-- Voice Upgrade Successful -->")
-                print("<- Updated Optimal Known Voices:" + str(self.optimalclusters) + " ->")
-                return(True)
-            else:
-                print("<-- Clustering failed -->")
-                return(False)
-
-
-        def cosine_dist(self, x, y):
-            nx = np.array(x)
-            ny = np.array(y)
-            return 1 - np.dot(nx, ny) / np.linalg.norm(nx) / np.linalg.norm(ny)
-
-        def kmean(self):
-            km = KMeans(n_clusters=self.optimalclusters, init='k-means++', max_iter=14000, tol=1e-04)
-            self.persistentPCAKmodel = km.fit(self.pcad)
-            self.y_km = self.persistentPCAKmodel.predict(self.pcad)
-            self.persistentKmodel = km.fit(self.X)
-            self.y_kx = self.persistentKmodel.predict(self.X)
-
-
-        def graphkmean(self):
-            better_colors = []
-            for coloriterator in range(0, self.optimalclusters):
-                f = random.random()
-                f2 = random.random()
-                f3 = random.random()
-                cv = coloriterator+random.randint(0, 20)
-                red = (cv+f) % 1.0
-                blue = (cv+f2) % 1.0
-                green = (cv+f3) % 1.0
-                color_insert=(red, blue, green)
-                better_colors.append(color_insert)
-            for i in range(len(self.pcad)):
-                plt.scatter(self.pcad[i][0], self.pcad[i][1], c=[better_colors[self.y_km[i]]], alpha=0.8)
-                plt.annotate(str(self.y_km[i]),(self.pcad[i][0],self.pcad[i][1]))
-            #print(self.pcad)
-            plt.show()
-
-def voice_engine():
-    cR = clusterRes()
-    if(cR.upgradeQuick()==True):
-        cR.kmean()
-        #cR.graphkmean()
-    yield(True)
-    while(True):
-        inframe = yield
-        if(inframe is not None):
-            if(inframe is not 0 and inframe[1] is not None and inframe[0] is not None):
-                pred = cR.knn_pred(inframe)
-                pred2 = cR.kmean_pred(inframe)
-                print(pred)
-                print(pred2)
-                yield(pred2)
-            elif(inframe == 0):
-                cr.upgradeQuick()
+#preps data for log by string conversion, no clusterID
+def log_prep(text, sfp):
+    #get current time, add date list to string
+    d = dateLib.getNow()
+    dretstring = ""
+    for x in range(0, len(d)):
+        if(x==(len(d)-1)):
+            dretstring += str(d[x])
         else:
-            pass
+            dretstring += str(d[x]) + ","
+
+    #convert fingerprint array to string
+    sfpretstring = ""
+    for x in range(0, len(sfp)):
+        if(x==(len(sfp)-1)):
+            sfpretstring += str(sfp[x])
+        else:
+            sfpretstring+= str(sfp[x])+","
+
+    #hash of current time and text
+    id = create_hash_id(dretstring,text)
+    return([id,dretstring,text,sfpretstring])
+
+#cleans and reassigns to proper datatypes
+def log_clean(id, time, text, sfp, ct):
+    dt = time.split(",")
+    sfpi = sfp.split(",")
+    for x in range(0, len(sfpi)):
+        sfpi[x] = sfpi[x].astype(np.float)
+    cti = int(cti)
+    return(id,dt,text,sfpi,cti)
 
 
+#creates empty audio log / clears current one
+#pass audiolog class
+def create_log(aL):
+    h5file = tables.open_file("memory/logs/audiolog.h5", mode="w", title="audiolog")
+    group = h5file.create_group("/", 'Null', 'Audio')
+    table = h5file.create_table(group, 'Null', aL, "Audio log")
+    table.flush()
+    h5file.close()
+
+#appends precleaned row to log file
+def append_log(id, time, text, sfp, ct):
+    h5file = tables.open_file("memory/logs/audiolog.h5", mode="a", title="audiolog")
+    table = h5file.root.Null.Null
+    r = table.row
+
+    r["ID"] = id #encrypt
+    r["time"] = time #encrypt
+    r["text"] = text #encrypt
+    r["speechFingerPrint"] = sfp #encrypt
+    r["clusterTag"] = ct #encrypt
+
+    r.append()
+    table.flush()
+    h5file.close()
+
+def get_table_length():
+    h5file = tables.open_file("memory/logs/audiolog.h5", mode="a", title="audiolog")
+    table = h5file.root.Null.Null
+    count = 0
+    for row in table:
+        count+=1
+    table.flush()
+    h5file.close()
+    return(count)
+
+#prints full table
+def print_full_table():
+    h5file = tables.open_file("memory/logs/audiolog.h5", mode="a", title="audiolog")
+    table = h5file.root.Null.Null
+    for row in table:
+        print(" ")
+        print(row["ID"].decode() + "||" + row["time"].decode() + "||" + row["text"].decode()+ "||" + row["speechFingerPrint"].decode()  +"||" + row["clusterTag"].decode())
+        #+ "||" + row["speechFingerPrint"].decode()
+        print(" ")
+    table.flush()
+    h5file.close()
+
+def dump_sfp():
+    h5file = tables.open_file("memory/logs/audiolog.h5", mode="a", title="audiolog")
+    table = h5file.root.Null.Null
+    arr = []
+    for row in table:
+        store = []
+        #print(row["speechFingerPrint"].decode())
+        q = (row["speechFingerPrint"].decode()).split(",")
+        q = list(filter(None, q))
+        for x in range(0, len(q)):
+            q[x] = float(q[x])
+        arr.append(q)
+    table.flush()
+    h5file.close()
+    return(arr)
+
+def dump_text():
+    h5file = tables.open_file("memory/logs/audiolog.h5", mode="a", title="audiolog")
+    table = h5file.root.Null.Null
+    arr = []
+    for row in table:
+        store = []
+        #print(row["speechFingerPrint"].decode())
+        q = (row["text"].decode()).split(",")
+        q = list(filter(None, q))
+        for x in range(0, len(q)):
+            q[x] = q[x]
+        arr.append(q)
+    table.flush()
+    h5file.close()
+    return(arr)
 
 
+class audio_cortex:
+        def __init__(self):
+            self.m = True
+            self.size = get_table_length()
 
+            self.size_bool = False
+        def check_size(self):
+            if(self.size_bool==False):
+                if(self.size>1):
+                    self.size_bool = True
+                    return(True)
+                else:
+                    return(False)
+            else:
+                return(True)
+        def resolve_clusters(self,text,sfp):
+            return("None")
+        def log_Audio(self, text, sfp, clust):
+            prepped = log_prep(text,sfp)
+            append_log(prepped[0], prepped[1], prepped[2], prepped[3], clust)
+        def passIn(self,text,sfp):
+            clustered = "None"
+            if(self.check_size()):
+                clustered = self.resolve_clusters(text,sfp)
+            self.log_Audio(text,sfp,clustered)
 
-
-
-
-
-#aggregate all algorithms
-#aggregate clustert0->clustert1->clustertn?
-#points of clustert0 = points of cluster1 - 1, clustering could be totally different
+def wipe_log():
+    f = audioLog
+    create_log(f)
