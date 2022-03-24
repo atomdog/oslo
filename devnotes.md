@@ -29,7 +29,7 @@
 - Optimized audio loop
 - Fixed up the repo / serious misplaced code issue
 ### General notes
-- Difficulties
+- More persistency
 ## Tuesday, March 29, 2022
 
 ## Thursday, March 31, 2022
