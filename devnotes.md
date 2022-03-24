@@ -26,6 +26,7 @@
 - Improved Wyze integrations 
 - Began root representation format
 - Optimized audio loop
+- Fixed up the repo / serious misplaced code issue
 ### General notes
 - General difficulties
 ## Tuesday, March 29, 2022
