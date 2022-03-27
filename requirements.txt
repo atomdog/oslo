@@ -3,7 +3,7 @@ html2text==2020.1.16
 imap_tools==0.39.0
 keras==2.7.0
 mac_vendor_lookup==0.1.11
-matplotlib==3.4.2
+matplotlib==3.5.1
 networkx==2.5.1
 nltk==3.4.5
 numpy==1.19.5
@@ -12,7 +12,7 @@ python_dateutil==2.8.2
 Requests==2.27.1
 roku==4.1.0
 scikit_learn==1.0.2
-shodan==1.25.0
+shodan==1.27.0
 simpleaudio==1.0.4
 sounddevice==0.4.1
 spacy==3.0.5
