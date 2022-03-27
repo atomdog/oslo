@@ -1,10 +1,12 @@
 # oslo
 The oslo project is an effort to produce an esoteric open source virtual assistant framework that is:
+
 - meant to be hacked on
 - diverse in functionality
 - privacy concious
 - a stepping stone for creating more sophisticated agents 
-Please keep in mind as of right now 
+
+
 ## Getting things running
 - the required models can be found [here](https://mega.nz/folder/KegjSQAC#Xs4SzflsKlT5jeXkuvB06Q)
 - the [wiki](https://github.com/atomdog/oslo/wiki/Spinning-things-up) guide on getting started
