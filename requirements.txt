@@ -16,7 +16,7 @@ shodan==1.27.0
 simpleaudio==1.0.4
 sounddevice==0.4.1
 spacy==3.0.5
-tables==3.6.1
+tables==3.7.0
 tensorflow==2.7.0
 vosk==0.3.21
 wikipedia==1.4.0
