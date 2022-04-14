@@ -6,11 +6,11 @@ import dateLib
 import json
 import nltk
 from nltk.corpus import stopwords
-
 #-------------- aidan's notes --------------------
 #layer of action TRACKS in web *****!!!
 #sem_edges have hash of two connecting words creating unique key for pairs of words
 #perhaps a higher level edge for a->root->b
+#don't redraw conflicting facts or questions
 #-------------------------------------------------
 
 def freeze_web(web_cl):
@@ -78,6 +78,30 @@ class live_node:
         self.form = "live"
         self.alt_form = "none"
         self.profileLink = None
+        #individual_traces
+        self.individual_traces = []
+
+class live_vector:
+    def semHasher(self):
+        self.semHash = hashlib.md5((self.type).encode()).hexdigest()
+    def __init__(self, stringinit, type):
+        self.inbound_edges  = []
+        self.outbound_edges = []
+        self.node_x = None
+        self.node_y = None
+        #textual representation
+        self.text = stringinit
+        self.qual = "live_node"
+        self.type = type
+        self.entity_tag = self.type
+        #semantic hash initialization
+        self.semHash = None
+        self.semHasher()
+        #semantic POS (not relevant here)
+        self.form = "live"
+        self.alt_form = "none"
+        self.profileLink = None
+        self.conversation_tag = None
         #individual_traces
         self.individual_traces = []
 
@@ -253,8 +277,13 @@ class sw:
         self.semWeb.append(forweb)
 
     def state_insert(self, snf):
-        #for creation of a 'live' state node
-
+        #for creation of a state vector
+        vc = snf.VerbCloud
+        oc = snf.ObjectCloud
+        dc = snf.DescriptorCloud
+        total = len(vc)*len(oc)*len(dc)
+        for x in range(0, total):
+            pass
         pass
 
     def update_root_rep(self):
@@ -262,17 +291,16 @@ class sw:
         current_root_rep = []
         for x in range(0, len(bookmark)):
             if(bookmark[x].qual == "node"):
-                current_root_rep.append(bookmark[x].text)
+                current_root_rep.append(bookmark[x].alt_form)
         self.root_rep.append(current_root_rep)
-        print(self.root_rep)
-
+        #print(current_root_rep)
+        #print(self.root_rep)
 
     def recent_entry(self):
         if(len(self.semWeb)==0):
             return 0
         elif(len(self.semWeb)>=1):
             return(len(self.semWeb)-1)
-
 
     def export_to_json(self):
         json_node_form = {}
@@ -295,7 +323,6 @@ class sw:
 
     def hash_word_combo(self, wordText, pos_tag):
         return(hashlib.md5((wordText+pos_tag).encode()))
-
     #find by hash
     def find_web_index_by_hash(self, to_locate_hash):
         #O(n) time
@@ -370,7 +397,7 @@ class sw:
         self.semTrack.append(q)
 
     #encounter sentence, words into nodes, create
-    def sentenceEncounter(self, sentFrame, sourceFrame):
+    def sentenceEncounter(self, sentFrame):
         if(sentFrame == None):
             return False
         #print(sentFrame['plaintext'])
@@ -387,11 +414,14 @@ class sw:
         vectorized.track = self.semTrack
         vectorized.frame = sentFrame
         vectorized.text = sentFrame['plaintext']
+        vectorized.text = sentFrame['plaintext']
         vectorized.t = dateLib.getNow()
+        vectorized.speaker = sentFrame['speaker']
         #if we have a sentence type prediction, fill it in
         if(sentFrame['sent_type_pred']!=None):
             vectorized.type = sentFrame['sent_type_pred']
         vectorized.entify()
+        self.correct_list()
         #slide in vector to web
         self.semWeb.append(vectorized)
         self.update_root_rep()
@@ -410,8 +440,6 @@ class sw:
 
     #stop connecting stopwords
 
-
-
     def spintrace(self):
         self.traces = []
         for iterator in range(0, len(self.nodeList)):
@@ -419,6 +447,9 @@ class sw:
             cy = self.nodeList[iterator].node_y
             self.nodeList[iterator].individual_traces = []
             self.semWeb[cy].track[cx].individual_traces = []
+            #print(self.semWeb[cy].track[cx].text)
+            #print(self.nodeList[iterator].text)
+            #assert self.semWeb[cy].track[cx].text == self.nodeList[iterator].text
             if(self.nodeList[iterator].text in nltk.corpus.stopwords.words('english') or self.nodeList[iterator].text == " "):
                 pass
             else:
@@ -445,7 +476,6 @@ class sw:
                 self.nodeList[iterator].individual_traces.append(sem_trace(cnode.node_x, cnode.node_y, targetx, 0))
                 self.traces.append(sem_trace(cnode.node_x,cnode.node_y, targetx, 0))
 
-
     def aggregate_by_noun_chunks(self, row_index):
         print("<--- Retrieving relevant sentences via noun chunks for:   -->")
         print(" ".join(self.semWeb[row_index].text))
@@ -466,12 +496,18 @@ class sw:
         print(aggregatedplaintext)
         return(aggregatedplaintext)
 
+    #ensure nodeList and semWeb are matching
+    def correct_list(self):
+        ncounter = 0
+        for x in range(0, len(self.nodeList)):
+            pass
+            #self.nodeList[x] = self.semWeb[self.nodeList[x].node_y].track[self.nodeList[x].node_x]
 
     def get_by_entity(self, type):
         key = self.type_lookup[type]
         elist = self.semWeb[0].track[key].individual_traces
-        print(key)
-        print(elist)
+        #print(key)
+        #print(elist)
         aggregated =[]
         for x in range(0, len(elist)):
             print(elist[x].by)

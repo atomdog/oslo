@@ -6,7 +6,11 @@ import agendaLib
 import spotifyLib
 import perception
 import I
-#make class!!!! done 
+#make class!!!! done
+
+#-------------- aidan's notes --------------------
+#make associated entities for parameters
+#-------------------------------------------------
 
 class model():
     def __init__(self):
@@ -34,7 +38,9 @@ class model():
                 for z in range(0, len[tm[x][y]]):
                     self.tm[x][y][z] = self.tm_occ_clone[x][y][z]/total_occ_clone
             total_occur = 0
-
+            print(self.tm)
+    def trigger_by_index(self, index):
+        self.tm[index].run_target_function()
 
     def manual_state_load(self):
         f = lambda a : actions.summarize(a)
@@ -43,6 +49,7 @@ class model():
         self.tm[0].name = "summary"
         self.tm[0].isAction = True
         self.tm[0].get_act = True
+        self.tm[0].param_entities = []
 
         f1 = lambda: actions.getHeadlines()
         self.tm[1].updateObjectCloud(["headline", "news"])
@@ -52,35 +59,38 @@ class model():
         self.tm[1].isAction = True
         self.tm[1].get_act = True
 
-        f2 = lambda a, b : actions.send(a,b)
+        f2 = lambda a, b : actions.sendUDP(a,b)
         self.tm[2].set_target_function(f2)
-        self.tm[2].name = "send"
+        self.tm[2].name = "sendUDP"
         self.tm[2].isAction = True
 
-
-        f3 = lambda: actions.toggle_diffuser("0")
-        self.tm[3].updateObjectCloud(["diffuser"])
-        self.tm[3].updateVerbCloud(["turn", "switch"])
-        self.tm[3].updateDescriptorCloud(["off"])
+        f3 = lambda a: actions.get_devices(a)
+        self.tm[3].updateObjectCloud(["devices","phone"])
+        self.tm[3].updateVerbCloud(["get", "show", "find", "list"])
         self.tm[3].set_target_function(f3)
-        self.tm[3].name = "disable diffuser"
+        self.tm[3].name = "getdevices"
         self.tm[3].isAction = True
+        self.tm[3].get_act = True
+        self.tm[3].param_entities = [["numbers"]]
 
-        f4 = lambda: actions.toggle_diffuser("1")
-        self.tm[4].updateObjectCloud(["diffuser"])
-        self.tm[4].updateVerbCloud(["turn", "switch"])
-        self.tm[4].updateDescriptorCloud(["on"])
+        f4 = lambda a, b: actions.sendTextMail(a, b)
+        self.tm[4].updateObjectCloud(["text", "email"])
+        self.tm[4].updateVerbCloud(["send", "text", "tell"])
         self.tm[4].set_target_function(f4)
-        self.tm[4].name = "diffuser"
+        self.tm[4].name = "sendtext"
         self.tm[4].isAction = True
+        self.tm[4].get_act = False
+        self.tm[4].param_entities = [[], ["numbers"]]
 
-        f5 = lambda: actions.getPrecipitation("sc", "charleston")
+
+        f5 = lambda a, b: actions.getPrecipitation(a, b)
         self.tm[5].updateObjectCloud(["weather"])
         self.tm[5].updateVerbCloud(["read", "tell", "whats"])
         self.tm[5].set_target_function(f5)
         self.tm[5].name = "weather"
         self.tm[5].isAction = True
         self.tm[5].get_act = True
+        self.tm[5].param_entities = [["locations"], ["locations"]]
 
         f6 = lambda a, b: actions.getCurrentTemp(a, b)
         self.tm[6].updateObjectCloud(["temperature"])
@@ -89,14 +99,8 @@ class model():
         self.tm[6].name = "temperature"
         self.tm[6].isAction = True
         self.tm[6].get_act = True
+        self.tm[6].param_entities = [["locations"], ["locations"]]
 
-        f7 = lambda: agendaLib.getTasks()
-        self.tm[7].updateObjectCloud(["tasks", "schedule", 'to-do'])
-        self.tm[7].updateVerbCloud(["read", "tell", "whats", "get"])
-        self.tm[7].set_target_function(f7)
-        self.tm[7].name = "tasks"
-        self.tm[7].isAction = True
-        self.tm[7].get_act = True
 
         f8 = lambda a: spotifyLib.selectsong(a)
         self.tm[8].updateObjectCloud([""])
@@ -105,7 +109,6 @@ class model():
         self.tm[8].name = "playSong"
         self.tm[8].isAction = True
         self.tm[8].get_act = False
-
 
         f9 = lambda a: spotifyLib.selectplaylist(a)
         self.tm[9].updateObjectCloud(["playlist"])
@@ -154,14 +157,16 @@ class model():
         self.tm[14].name = "getIncidents"
         self.tm[14].isAction = True
         self.tm[14].get_act = True
+        self.tm[14].param_entities = [["number"], ["number"], ["number"]]
 
-        f15 = lambda: actions.track_phone()
+        f15 = lambda a: actions.track_device(a)
         self.tm[15].updateObjectCloud(["location","phone location"])
         self.tm[15].updateVerbCloud(["get", "show", "find", "track"])
         self.tm[15].set_target_function(f15)
-        self.tm[15].name = "trackPhone"
+        self.tm[15].name = "trackdevice"
         self.tm[15].isAction = True
         self.tm[15].get_act = True
+        self.tm[15].param_entities = [["number"]]
 
         f16 = lambda: actions.networkscan()
         self.tm[16].updateObjectCloud(["network","wifi","network devices"])
@@ -171,13 +176,14 @@ class model():
         self.tm[16].isAction = True
         self.tm[16].get_act = True
 
-        f17 = lambda: actions.getTasks()
-        self.tm[17].updateObjectCloud(["tasks","to do","tasks", "schedule", "deadlines"])
-        self.tm[17].updateVerbCloud(["get", "show", "find", "give"])
+        f17 = lambda lat, long: actions.latlonglookup(lat,long)
+        self.tm[17].updateObjectCloud(["lat","long","latitude", "longitude"])
+        self.tm[17].updateVerbCloud(["convert", "look", "find"])
         self.tm[17].set_target_function(f17)
-        self.tm[17].name = "getToDo"
+        self.tm[17].name = "latlonglookup"
         self.tm[17].isAction = True
         self.tm[17].get_act = True
+        self.tm[17].param_entities = [["number"], ["number"]]
 
 
         f18 = lambda: self.drives.rewardSoc()
@@ -206,6 +212,12 @@ class model():
         self.tm[20].rewardState = True
         self.tm[20].get_act = False
         self.tm[20].isAction = False
+        
+    def export_semantic_live_layer(self):
+        n_frames = []
+        for x in range(0, len(self.tm)):
+            n_frames.append()
+
 
 class perception_stack():
     def __init__(self):
@@ -216,8 +228,8 @@ class perception_stack():
 
 
 
-CM = model()
-CM.manual_state_load()
+#CM = model()
+#CM.manual_state_load()
 '''
 for x in range(0, len(CM.tm)):
     for y in range(0, len(CM.tm[x].tr)):

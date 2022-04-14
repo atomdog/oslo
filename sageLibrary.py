@@ -74,10 +74,10 @@ def sage():
 
 #takes a plaintext question and a semweb
 def sage_mark2():
-    print("< ------- Loading Sage Mk 2 ------ >")
+    print("< ------- Preparing Sage Mk 2 ------ >")
     model = load_model()
     yield(True)
-    print("< ------- Sage Mk 2 Online ------ >")
+    print("< ------- Sage Mk 2 Ready ------ >")
     while(True):
         questionpluscontext = yield
         #plaintext of question

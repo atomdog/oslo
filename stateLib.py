@@ -21,6 +21,8 @@ class state:
         self.potentiate_prior = None
         self.potentiate_factor = 10
         self.potentiate_counter = self.init_transition_vector(n)
+        self.param_entities = []
+        
     def isStimuli(self, boo):
         self.stimuli = boo
     def isAction(self, boo):
@@ -45,6 +47,7 @@ class state:
             pload = perception.thaw_stack()
             pload.cognition_timeline_stack.append(actp)
             perception.freeze_stack(pload)
+            self.run_target_function()
         pass
     def enact(self):
         pass

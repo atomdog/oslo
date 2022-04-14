@@ -67,6 +67,7 @@ class language_loop:
                 next(self.seg_s)
                 self.process_file(os.path.join("Language/corpora/knowledge_base/", file))
 
+    #IMPLEMENT TO CONNECT
     def read_perception():
         pass
 
@@ -83,9 +84,9 @@ class language_loop:
 
     def feed(self, spk, txt):
         next(self.flow)
-        print("<- DEBUG LANGUAGE MODEL ACCESS CONSOLE ->")
-        L = self.flow.send([" ", str(f)])
+        response = self.flow.send([spk, txt])
+        return(response)
 
-q = language_loop()
-q.update_knowledge_base()
-q.read_key_input()
+#q = language_loop()
+#q.update_knowledge_base()
+#q.read_key_input()

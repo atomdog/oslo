@@ -10,9 +10,7 @@ class stream():
     def __init__(self):
         self.recent_entities = []
         self.recent_chunks = []
-
-        pass
-
+        self.webo = None
     def split_sentences(self,blocktext):
         pass
     def resolve_source(self,voi):
@@ -20,6 +18,22 @@ class stream():
     def unknown_resolve(self,voi):
         pass
     def subject_swap(self):
+        pass
+    #insert something from upper chain
+    def trigger_state_insertion(self, snf):
+        print("<--- Creating Semantic State Layers for: --->")
+        #self.webo.state_insert(snf)
+        pass
+    #trigger rumination using x
+    def trigger_rumination(self, x):
+        print("<--- Rumination Triggered: --->")
+        print(x)
+        print("<----------------------------->")
+        #self.webo.ruminate(x)
+        pass
+
+    #create semantic web from upper levels
+    def force_init(self):
         pass
 
     def routine(self):
@@ -36,15 +50,16 @@ class stream():
         while(next(self.q_answer)!=True):
             time.sleep(0.1)
         print("<--- Flow to Sage Initialized --->")
+
         #init coroutines
 
         self.currentSF = next(self.wern)
         self.currentQO = next(self.q_answer)
 
+
         #enter loop
         yield(True)
         while(True):
-            print("<--- Flow to Sage Initialized --->")
             response = { "plaintext": None,
                 "confidence": None,
                 "target": None,
@@ -54,29 +69,32 @@ class stream():
             #next(self.q_answer)
             fpack = yield
             print("<-- Text Flow Processing Input -->")
-            #print(fpack)
-            #print("<---------------------------------->")
+            print(fpack)
+            #fpack example:
+
+
             if(fpack is not None):
-                fpack[1] = text = re.sub(r"(@\[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)|^rt|", "", fpack[1])
-                #f = fpack[1]
+                #fpack[1] = text = re.sub(r"(@\[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)|^rt|", "", fpack[1])
+
                 #send to wernicke
+                speaker = fpack[0]
                 next(self.wern)
                 next(self.q_answer)
 
                 self.currentSF = self.wern.send(fpack)
 
-                #print(self.currentSF)
+
                 nom = self.currentSF
                 if(nom == None):
-                    print("<---- ERR: WERNICKE OFFLINE ---->")
+                    print("<---- !ERR: WERNICKE OFFLINE! ---->")
 
                 #check if wernicke returned a viable processed sentence frame
                 if(nom!= True and nom != None and nom['plaintext']!= None and len(nom['plaintext'])!=0):
                     #encounter in semantic web
-                    self.webo.sentenceEncounter(self.currentSF, None)
+                    self.webo.sentenceEncounter(self.currentSF)
                     #spin traces in semantic web
                     self.webo.spintrace()
-                    
+
                     #semweblib.freeze_web(self.webo)
                     #if current is declarative
                     if(self.webo.semWeb[len(self.webo.semWeb)-1].type == 3 or self.webo.semWeb[len(self.webo.semWeb)-1].type == 2):
@@ -84,7 +102,7 @@ class stream():
                         #send to symbolic engine, returns sentence frame with swapped personal pronouns
                         self.symengout = symbolic_engine.inbound_resolve_profile(self.currentSF)
                         if(self.symengout == None):
-                            print("<---- ERR: SYMBOLIC ENGINE OFFLINE ---->")
+                            print("<---- !ERR: SYMBOLIC ENGINE OFFLINE! ---->")
 
                         #process the personal pronoun swapped statement, store for reading up on later
 
@@ -98,26 +116,23 @@ class stream():
                         self.symengout = symbolic_engine.inbound_resolve_profile(self.currentSF)
                         #send plaintext to question
                         #switch to bfs
-
                         #get chunks, entities,
                         webbedcontext = self.webo.aggregate_by_noun_chunks(self.webo.recent_entry())
-
-
                         self.currentQO = self.q_answer.send([' '.join(self.symengout['plaintext']), webbedcontext])
                         response['plaintext'] = self.currentQO['answer']
                         response['confidence'] = self.currentQO['score']
                         response['type'] = "answertoquestion"
-                        self.webo.export_to_json()
-                        for x in range(0, len(self.webo.e_types)):
-                            print("<------->")
-                            print(self.webo.e_types[x])
-                            print(self.webo.get_by_entity(self.webo.e_types[x]))
-                            print("<------->")
+
+                        #for x in range(0, len(self.webo.e_types)):
+                            #print("<------->")
+                            #print(self.webo.e_types[x])
+                            #print(self.webo.get_by_entity(self.webo.e_types[x]))
+                            #print("<------->")
                         if(self.currentQO == None):
-                            print("<---- ERR: SAGE OFFLINE ---->")
+                            print("<---- !ERR: SAGE OFFLINE! ---->")
                         else:
                             print(self.currentQO)
-
+                    self.webo.export_to_json()
                     print("<-- Text flow cycle complete -->")
                     yield(response)
                 else:
