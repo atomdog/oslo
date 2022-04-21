@@ -66,7 +66,7 @@
 - Inflection standardization
 - Discovered necessity of editing, rerolling wern, editing, rerolling wern,...
 - part 1/3 of nprop implementation (where in runtime, preprocessing)
-- Reliable fast TTS
+- Reliable fast TTS 
 - Install, setup, script
 - Failed dockerization (too much change)
 - Resetting repo again (too much change)
