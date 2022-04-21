@@ -64,9 +64,14 @@
 ### Recent progress
 - Fuzzy date, time, extraction, resolution, profile resolution, reference for both, symbolic pre-processing, symbolic pre-pre-processing
 - Inflection standardization
-- Discovered necessity of rerolling wern
+- Discovered necessity of editing, rerolling wern, editing, rerolling wern,...
 - part 1/3 of nprop implementation (where in runtime, preprocessing)
 - Reliable fast TTS
 - Install, setup, script
 - Failed dockerization (too much change)
 - Resetting repo again (too much change)
+### Notes
+- shelving UI until post github 
+- symbolically parsing time is probably NP-hard
+- so close to getting to production level
+- Accuracy increases as # of symbolic conversions increase
