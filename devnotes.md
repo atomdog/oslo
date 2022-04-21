@@ -68,5 +68,5 @@
 - part 1/3 of nprop implementation (where in runtime, preprocessing)
 - Reliable fast TTS
 - Install, setup, script
-- Failed dockerization
-- Resetting repo again
+- Failed dockerization (too much change)
+- Resetting repo again (too much change)
