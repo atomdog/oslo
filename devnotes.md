@@ -59,3 +59,12 @@
 - Runtime working
 - Fixed up the repo / serious misplaced code issue
 - Tested language processing at scale
+
+## Thursday, April 7, 2022
+### Recent progress
+- Fuzzy date, time, extraction, resolution, profile resolution, reference for both, symbolic pre-processing, symbolic pre-pre-processing
+- Inflection standardization
+- Discovered necessity of rerolling wern
+- part 1/3 of nprop implementation (where in runtime, preprocessing)
+- Reliable fast TTS
+- Install, setup, script
