@@ -74,4 +74,4 @@
 - shelving UI until post github 
 - symbolically parsing time is probably NP-hard
 - so close to getting to production level
-- Accuracy increases as # of symbolic conversions increase
+- QA accuracy, recall accuracy, increases as # of symbolic conversions increase
