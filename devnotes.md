@@ -67,6 +67,7 @@
 - Discovered necessity of editing, rerolling wern, editing, rerolling wern,...
 - part 1/3 of nprop implementation (where in runtime, preprocessing)
 - Reliable fast TTS 
+- Setup: pip install pipwin && pipwin install pyaudio && python cleo.py -s "text to be spoken"
 - Install, setup, script
 - Failed dockerization (too much change)
 - Resetting repo again (too much change)
