@@ -79,8 +79,17 @@
 
 ## Thursday, April 28, 2022
 ### Notes
+#### aidan
 - fixing up repo is halfway done (dead-end imports gone)
 - symbolically parsing time is still probably NP-hard 
-- dockerized working partially, unforeseen drawbacks
+- substitution reliant on balancing edits versus accuracy, make it make sense
+- "dockerized" working partially, unforeseen drawbacks
 - symbolic standardization, states talking to calculus, hugely reliant standardization
+- charting things
+#### chase
+- added punctation handling for playing :, ,, !, ?, .
+- fixed bug with playing start of audio experiencing clipping in non-blocking hardware by adding a slight delay
+- cleaning up the functionality of adding pauses before/after/between words
+- started using the pyaudio interface directly to have our own functions for playing back the generated audio segments
+- pulls
 
