@@ -60,7 +60,7 @@
 - Fixed up the repo / serious misplaced code issue
 - Tested language processing at scale
 
-## Thursday, April 7, 2022
+## Thursday, April 14, 2022
 ### Recent progress
 - Fuzzy date, time, extraction, resolution, profile resolution, reference for both, symbolic pre-processing, symbolic pre-pre-processing
 - Inflection standardization
@@ -76,3 +76,11 @@
 - symbolically parsing time is probably NP-hard
 - so close to getting to production level
 - QA accuracy, recall accuracy, increases as # of symbolic conversions increase
+
+## Thursday, April 28, 2022
+### Notes
+- fixing up repo is halfway done (dead-end imports gone)
+- symbolically parsing time is still probably NP-hard 
+- dockerized working partially, unforeseen drawbacks
+- symbolic standardization, states talking to calculus, hugely reliant standardization
+
