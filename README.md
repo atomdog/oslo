@@ -7,9 +7,9 @@ The oslo (open source loop operator) project is an effort to produce an esoteric
 - a stepping stone for creating more sophisticated agents 
 
 ## why? 
-- [why is it named a 'loop operator'?](https://github.com/atomdog/oslo/wiki/Spinning-things-up)
-- [why do this?](https://github.com/atomdog/oslo/wiki/Spinning-things-up)
-- [why not use siri or alexa or google home?](https://github.com/atomdog/oslo/wiki/Spinning-things-up)
+- [why is it named a 'loop operator'?](https://github.com/atomdog/oslo/wiki/Some-Background)
+- [why do this?](https://github.com/atomdog/oslo/wiki/Some-Background)
+- [why not use siri or alexa or google home?](https://github.com/atomdog/oslo/wiki/Some-Background)
 
 ## Getting things running
 - the required models can be found [here](https://mega.nz/folder/KegjSQAC#Xs4SzflsKlT5jeXkuvB06Q)
