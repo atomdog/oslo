@@ -7,9 +7,9 @@ __pycache__/
 *.so
 #oslo model folders
 .DS_Store
-model-spk/
+
 faces/
-model2/
+
 #sensitive 
 credFile.json
 profFile.json
