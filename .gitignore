@@ -14,6 +14,7 @@ model2/
 credFile.json
 profFile.json
 gmailapi/token.json
+gmailapi/credentials.json
 memory/runtime/state_language.json
 memory/logs/audiolog.h5
 serialized-instances/chillyWeb.obj
