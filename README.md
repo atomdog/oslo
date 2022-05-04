@@ -1,4 +1,4 @@
-# oslo
+# ![Alt text](other_resources/logo.png)
 The oslo project is an effort to produce an esoteric open source virtual assistant framework that is:
 
 - meant to be hacked on
