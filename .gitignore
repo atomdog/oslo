@@ -10,8 +10,15 @@ __pycache__/
 model-spk/
 faces/
 model2/
+#sensitive 
 credFile.json
 profFile.json
+gmailapi/token.json
+memory/runtime/state_language.json
+memory/logs/audiolog.h5
+serialized-instances/chillyWeb.obj
+serialized-instances/perception.obj
+
 # Distribution / packaging
 .Python
 build/
