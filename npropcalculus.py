@@ -1,1 +1,0 @@
-#neural_prop_calculus
