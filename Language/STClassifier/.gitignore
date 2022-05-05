@@ -5,7 +5,7 @@ config/*
 logs/*
 
 # Models
-models/*
+
 
 # emacs files
 **~
