@@ -3,7 +3,7 @@ html2text==2020.1.16
 imap_tools==0.39.0
 keras==2.7.0
 mac_vendor_lookup==0.1.11
-matplotlib==3.4.2
+matplotlib==3.5.2
 networkx==2.5.1
 nltk==3.4.5
 numpy==1.22.3
