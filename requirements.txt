@@ -2,7 +2,7 @@ beautifulsoup4==4.10.0
 html2text==2020.1.16
 imap_tools==0.39.0
 keras==2.7.0
-mac_vendor_lookup==0.1.11
+mac_vendor_lookup==0.1.12
 matplotlib==3.4.2
 networkx==2.5.1
 nltk==3.4.5
