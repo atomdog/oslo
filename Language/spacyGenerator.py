@@ -17,12 +17,13 @@ def only_nouns(txt):
     return(retval)
 
 def load_model():
-    nlp = spacy.load("en_core_web_sm")
+    nlp = spacy.load("en_core_web_trf")
     return(nlp)
 
 def load_model2():
     nlp = spacy.load("en_core_web_sm")
-    nlp.add_pipe("sentencizer")
+    nlp.disable_pipe("parser")
+    nlp.enable_pipe("senter")
     return(nlp)
 
 
@@ -41,7 +42,6 @@ def docprocgen():
     while(True):
         val = yield
         #print(val)
-
         if(val is not None):
             pred = sentsegment(val, model)
             yield(pred)
@@ -54,7 +54,6 @@ def docprocgen():
 
 def spaci(sentence, model):
     spacied = model(sentence)
-
     entities = []
     for ent in spacied.ents:
         entities.append([ent.text, ent.label_, ent.kb_id_])
@@ -68,9 +67,12 @@ def spaci(sentence, model):
     chunks = []
     for chunk in spacied.noun_chunks:
         chunks.append(chunk.text)
-    package = [entities, tokens, chunks, plaintext]
+    sp2 = list(spacied.sents)[0]
+    isPast = (sp2.root.tag_ == "VBD" or any(w.dep_ == "aux" and w.tag_ == "VBD" for w in sp2.root.children))
+    tense = [isPast]
+    
+    package = [entities, tokens, chunks, plaintext, tense]
     return(package)
-
 def chunkGenerator():
     model = load_model()
     yield(True)

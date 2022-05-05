@@ -6,12 +6,9 @@ A human is an animal.
 A human is not a dog.
 A human is not a plant.
 A human is an animal with no fur.
-Turning on the lights makes a room brighter.
-Turning off the lights makes a room darker.
-At night the sun is not out.
-During the day the sun is out.
-The night is when the sun goes down.
-The day is when the sun comes up.
-Plants need the sun.
-People need light to see.
-People do not see when they sleep.
+What is a dog?
+The morning is when the sun rises.
+When is the morning?
+It is important to be kind.
+It is important to be patient.
+What is important?
