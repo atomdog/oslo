@@ -28,6 +28,7 @@ class executive_loop:
         print("< ------- Executive Loop intializing... ------ >")
         self.pq = queue.Queue()
         self.cm = causal_model.model()
+        self.flags = {"icloud": False, "gmail": False, "citizen": False}
         self.run()
 
     def chores(self):
@@ -36,8 +37,9 @@ class executive_loop:
             print("< ------- Doing Chores ------ >")
             #update some information
             #0.01549275362
-            currentlatlong = actions.track_device(0)
-            currentaddress = actions.latlonglookup(currentlatlong[0], currentlatlong[1])
+            if(self.flags["icloud"]):
+                currentlatlong = actions.track_device(0)
+                currentaddress = actions.latlonglookup(currentlatlong[0], currentlatlong[1])
             weather = actions.getPrecipitation(currentaddress[2], currentaddress[1])
             collectiontime = datetime.now()
             self.pq.put(["Weather Underground", "The forecast at " + collectiontime.strftime("%H:%M:%S") + " on "+   collectiontime.strftime("%d/%m/%Y") + " is " + weather])
@@ -47,9 +49,10 @@ class executive_loop:
             #headlines = actions.getHeadlines()
             #for x in range(0, len(headlines)):
             #    self.pq.put(["Reuters", "Today: " + headlines[x]])
-            nearbyincidents = actions.get_incidents(currentlatlong[0], currentlatlong[1], 0.01549275362)
-            for x in range(0, len(nearbyincidents)):
-                self.pq.put(["Citizen", "At " + str(nearbyincidents[x][1]) + " Citizen reported a code " + str(nearbyincidents[x][5])+ " incident: "+ nearbyincidents[x][0]])
+            if(self.flags['citizen']):
+                nearbyincidents = actions.get_incidents(currentlatlong[0], currentlatlong[1], 0.01549275362)
+                for x in range(0, len(nearbyincidents)):
+                    self.pq.put(["Citizen", "At " + str(nearbyincidents[x][1]) + " Citizen reported a code " + str(nearbyincidents[x][5])+ " incident: "+ nearbyincidents[x][0]])
             print("< ------- Chores Done ------ >")
             time.sleep(18000)
 
@@ -74,11 +77,12 @@ class executive_loop:
     def texts(self):
         while(True):
             #check for texts
-            texts = actions.getMail()
-            if(len(texts)>0):
-                for x in range(0, len(texts)):
-                    #when, from, contents
-                    self.pq.put([texts[x][1], texts[x][2]])
+            if(self.flags["gmail"]):
+                texts = actions.getMail()
+                if(len(texts)>0):
+                    for x in range(0, len(texts)):
+                        #when, from, contents
+                        self.pq.put([texts[x][1], texts[x][2]])
             time.sleep(1)
 
     def run(self):

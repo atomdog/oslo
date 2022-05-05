@@ -4,14 +4,16 @@ The oslo (open source loop operator) project is an effort to produce an esoteric
 - meant to be hacked on
 - diverse in functionality
 - privacy concious
-- a stepping stone for creating more sophisticated agents 
+- a stepping stone for creating more sophisticated agents
 
-## why? 
+## why?
 - [why is it named a 'loop operator'?](https://github.com/atomdog/oslo/wiki/Some-Background)
-- [why do this?](https://github.com/atomdog/oslo/wiki/Some-Background)
-- [why not use siri or alexa or google home?](https://github.com/atomdog/oslo/wiki/Some-Background)
-
 ## Getting things running
+- start by installing required libraries using the requirements.txt and then running startup.py
+- the model runs from main.py, once you get to that point
+- make sure you add the proper api keys to config.json, critically at least a gmail account
+- the gmail account you use doesn't matter, it can be a fake one, so long as OSLO can reach text messages
+- if you'd like to disable texting, icloud or other runtime features, use the flags within main as well
 - the required models can be found [here](https://mega.nz/folder/KegjSQAC#Xs4SzflsKlT5jeXkuvB06Q)
 - the [wiki](https://github.com/atomdog/oslo/wiki/Spinning-things-up) guide on getting started
 ## Development
