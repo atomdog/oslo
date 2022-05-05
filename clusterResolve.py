@@ -4,6 +4,8 @@ import audiocortex
 import numpy as np
 import random
 
+from scipy.stats import multivariate_normal
+
 from yellowbrick.cluster import KElbowVisualizer
 import matplotlib.pyplot as plt
 
@@ -40,6 +42,9 @@ class clusterRes:
             self.kv = None
             self.y_km = None
             self.y_kx = None
+            self.centers = None
+            self.centerscmp = None
+            self.flag = 0
         def knn_pred(self, value):
             self.vknn = KNeighborsClassifier(n_neighbors=self.optimalclusters)
             self.vknn.fit(self.X, self.y_kx)
@@ -213,6 +218,26 @@ class clusterRes:
             print("//akaike information criterion optimal clusters...")
             print(a_number)
             print(min_aic_found)
+            centers = np.empty(shape=(gm.n_components, X.shape[1]))
+            if not self.flag:
+                for i in range(gmm.n_components):
+                    density = multivariate_normal(gmm.means_[i], gmm.covariances_[i]).logpdf(X)
+                    self.centers[i,:] = np.sum(X * np.exp(density), axis=1) / np.sum(np.exp(density))
+                    self.flag = 1
+            else:
+                for i in range(gmm.n_components):
+                    density = multivariate_normal(gmm.means_[i], gmm.covariances_[i]).logpdf(X)
+                    self.centerscmp[i,:] = np.sum(X * np.exp(density), axis=1) / np.sum(np.exp(density))
+                    for i in range(len(self.centers)):
+                        jaccard_dist = []
+                        if self.centers[i] != self.centerscmp[i]:
+                            for j in range(len(self.centerscmp)):
+                                jaccard_dist.append(jaccard_similarity_score(self.centers[i], self.centerscmp[j]))
+                            self.centers[i] = self.centerscmp[jaccard_dist.index(min(jaccard_dist))]
+                    self.flag = 0
+
+            
+
         
         def gauss_mm(self):
             self.X = np.array(audiocortex.dump_sfp())
