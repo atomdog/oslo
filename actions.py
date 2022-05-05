@@ -19,8 +19,8 @@ from roku import Roku
 from mac_vendor_lookup import MacLookup
 import icloudaccess
 import sys
-
-
+from pygooglenews import GoogleNews
+#screen /dev/cu.raspberrypi-SerialPort 115200
 sys.path.insert(0, './wyze_sdk_main')
 sys.path.insert(0, './gmailapi')
 import wisewrapper
@@ -100,7 +100,7 @@ def sendTextMail(message, endpoint):
 #end communications
 
 #news and queries
-def getHeadlines():
+def brokengetHeadlines():
     headlines = []
     url = "https://www.reuters.com/world/"
     req = Request(url, headers ={'User-Agent': 'Mozilla/5.0'})
@@ -128,6 +128,10 @@ def getHeadlines():
         webpage = webpage[findex:len(webpage)]
         headlines.append(f)
     return(headlines)
+def getHeadlines():
+    gn = GoogleNews(lang = 'en', country = 'US')
+    top = gn.top_news()
+    return(top)
 def summarize(endpoint):
     return(wikipedia.summary(endpoint))
 
@@ -271,11 +275,15 @@ def get_devices():
 #home functions
 #[B0,B1,B2,...,Bn]
 #[on/off, color, brightness, temp]
-def wyze_command(command_list):
-    client = wisewrapper.lights_ww(email=credLib.returnbykey('wyze', 'email'), password=credLib.returnbykey('wyze', 'password'))
-    for x in range(0, len(command_list)):
-        pass
-    #client.all_off()
+def wyze_command(command):
+    if(credLib.returnbykey('wyze', 'email')!="" and credLib.returnbykey('wyze', 'password')!=""):
+        client = wisewrapper.lights_ww(email=credLib.returnbykey('wyze', 'email'), password=credLib.returnbykey('wyze', 'password'))
+        for x in range(0, len(command_list)):
+            if(command[x]=='off'):
+                client.all_off()
+            if(command[x]=='on'):
+                client.all_on()
+
 
 #end home functions
 def testbench():

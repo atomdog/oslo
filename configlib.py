@@ -57,3 +57,7 @@ def fillbykey(key0, key1, param):
 def returnbykey(key0,key1):
     data = load_file()
     return(data[key0][key1])
+
+def check_file_paths():
+    if(os.path.exists('./gmailapi/credentials.json') and os.path.exists('./gmailapi/credentials.json')):
+        fillbykey("gmail", 'configured', 'true')
