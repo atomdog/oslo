@@ -93,3 +93,11 @@
 - started using the pyaudio interface directly to have our own functions for playing back the generated audio segments
 - pulls
 
+## Thursday, May 5th, 2022
+## Notes
+#### aidan
+- some concluding thoughts:
+- model architecture json is necessary, it is a language model that gets generated in the wrong place but I don't want to fix it right now
+- Kaldi changed versions and changed the recognizer call 
+##### more generally
+This project is now out of the BU Spark environment. I think I would have worked on it with the same intention anyways, but I highly, highly doubt it would have ever even touched Github, nor would I have learned so much about actually writing code that other people can use, or writing code in an organized way, or even a remotely reproducible way. Whether it poses any use to a lot of people or not is of little concern to me, while Spark has undoubtedly improved my ability to communicate my ideas, I have also realized that some people do not like this or do not understand as the purpose is not and never has been to make money. I will continue to maintain and improve this code, and add features that likely will be more experimental than practical, not that this has ever been practical. What matters to me is that it is out there and that one stubborn person might find it if they end up in the same place I found myself in a couple of years ago, resenting the fact that I was beholden to Alexa or Siri or Google Home, and that everyone had decided that it was just the way it was. 
