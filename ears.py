@@ -74,7 +74,7 @@ def listen():
             #print('#' * 80)
             #print('Press Ctrl+C to stop the recording')
             #print('#' * 80)
-            rec = KaldiRecognizer(model, spk_model, samplerate)
+            rec = KaldiRecognizer(model, samplerate,spk_model)
             #rec = vosk.KaldiRecognizer(model, samplerate)
             while True:
                 data = q.get()
