@@ -2,4 +2,4 @@
 
 
 ## Reporting a Vulnerability
-Please create an issue.
+Please email me [here](agom@bu.edu)
