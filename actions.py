@@ -138,7 +138,7 @@ def summarize(endpoint):
 #end news and queries
 
 def shodanHostQuery(host):
-    SHODAN_API_KEY = "Uw6GbgsWH9CmLSUapnH6VYEhkJirdoY7"
+    SHODAN_API_KEY = ""
     api = shodan.Shodan(SHODAN_API_KEY)
     host = api.host(host)
     # Print general info
