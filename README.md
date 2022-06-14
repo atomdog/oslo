@@ -10,13 +10,14 @@ The oslo (open source loop operator) project is an effort to produce an esoteric
 
 ## Why? ❓
 - [why is it named a 'loop operator'?](https://github.com/atomdog/oslo/wiki/Some-Background)
-## docs 📖
-- [readthedocs](oslo.readthedocs.io)
-- [wiki](https://github.com/atomdog/oslo/wiki)
+
 
 ## Getting things running 👩‍💻
 - for a brief intro, see [Getting Started](https://github.com/atomdog/oslo/wiki/Getting-Started)
 
+## docs 📖
+- [readthedocs](oslo.readthedocs.io)
+- [wiki](https://github.com/atomdog/oslo/wiki)
 
 ## Development ⚙️
 - [developer notes](devnotes.md) contains bi-weekly informal entries on progress
