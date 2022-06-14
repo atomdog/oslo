@@ -1,4 +1,4 @@
-# ![Alt text](other_resources/oslologo.png | height=250)
+# ![Alt text](other_resources/oslologo.png | height=250px)
 The oslo (open source loop operator) project is an effort to produce an esoteric open source virtual assistant framework that is:
 
 - meant to be hacked on
