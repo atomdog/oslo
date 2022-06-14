@@ -8,6 +8,7 @@ The oslo (open source loop operator) project is an effort to produce an esoteric
 
 ## why?
 - [why is it named a 'loop operator'?](https://github.com/atomdog/oslo/wiki/Some-Background)
+## [docs 📖](oslo.readthedocs.io)
 ## Getting things running
 - start by installing required libraries using the requirements.txt and then running startup.py
 - the model runs from main.py, once you get to that point
