@@ -33,6 +33,7 @@
 - More persistency
 
 ## Thursday, April 7, 2022
+
 ### Known tasks
 - [ ] Fix [clustering](clusterResolve.py) strange behavior
      - Clustering inconsistencies, errors
@@ -106,3 +107,5 @@
 - made landing more aesthetically pleasing
 - made a readthedocs
 - [demo](https://github.com/atomdog/oslo/blob/main/other_resources/demo.webm)
+- amount of integrations causing headaches
+- large scope of use, memory; accuracy breaking down
