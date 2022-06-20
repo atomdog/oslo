@@ -105,4 +105,4 @@
 - [svomapping.pdf](svomapping.pdf)
 - made landing more aesthetically pleasing
 - made a readthedocs
-- [demo](https://github.com/atomdog/oslo/blob/main/other_resources/Screencast%20from%2006-20-2022%2005:43:09%20PM.webm)
+- [demo](https://github.com/atomdog/oslo/blob/main/other_resources/demo.webm)
