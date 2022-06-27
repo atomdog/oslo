@@ -119,3 +119,4 @@
 - Furthered [SVO mappings](https://github.com/atomdog/svo-trigram-space)
 - Identified multiple conflicts between dev repo and this one
 - Advanced nprop formal system design significantly (experimentally implementing)
+- Began to expedite workflow based around dev repo -> this one -> automated docker build 
