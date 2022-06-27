@@ -109,3 +109,13 @@
 - [demo](https://github.com/atomdog/oslo/blob/main/other_resources/demo.webm)
 - amount of integrations causing headaches
 - large scope of use, memory; accuracy breaking down
+## June 27th, 2022
+## Notes
+- Added [flags.json](flags.json) to track initialization state as well as enabled integrations
+- Added [Dockerfile](Dockerfile)
+- Added [dockerize.sh](dockerize.sh) to automatically build docker image
+     - Docker image builds to ~ 6.5 gb, using python3 base
+     - Known Tensorflow version bug (Thanks to PIP)
+- Furthered [SVO mappings](https://github.com/atomdog/svo-trigram-space)
+- Identified multiple conflicts between dev repo and this one
+- Advanced nprop formal system design significantly (experimentally implementing)
