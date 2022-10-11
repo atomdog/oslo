@@ -21,4 +21,4 @@ tensorflow==2.7.0
 vosk==0.3.32
 wikipedia==1.4.0
 requests==2.25.1
-scipy==1.8.0
+scipy==1.9.2
