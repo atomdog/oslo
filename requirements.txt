@@ -11,7 +11,7 @@ pandas==1.2.3
 python_dateutil==2.8.2
 Requests==2.27.1
 roku==4.1.0
-scikit_learn==1.0.2
+scikit_learn==1.2.1
 shodan==1.27.0
 simpleaudio==1.0.4
 sounddevice==0.4.1
